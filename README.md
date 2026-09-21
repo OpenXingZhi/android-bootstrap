@@ -9,7 +9,7 @@ storage adapters.
 
 ## Dependency
 
-Coordinates: `com.xingzhi:android-bootstrap:1.0.0`
+Coordinates: `com.xingzhi:android-bootstrap:1.1.0`
 
 ```kotlin
 maven {
@@ -17,12 +17,42 @@ maven {
     credentials(PasswordCredentials::class)
 }
 
-implementation("com.xingzhi:android-bootstrap:1.0.0")
+implementation("com.xingzhi:android-bootstrap:1.1.0")
 ```
+
+`MonotonicDeviceTime` is the shared boot-id / elapsed-realtime adapter.
+Applications still own `TimeAnchorStore` (SharedPreferences vs DataStore).
 
 GitHub Packages requires a GitHub username and a token with `read:packages`
 (local `~/.gradle/gradle.properties` `GitHubPackagesUsername` /
 `GitHubPackagesPassword`, or `GITHUB_ACTOR` / `GITHUB_TOKEN` in CI).
+
+Shared repository wiring lives in the settings plugin
+`com.xingzhi.github-packages:1.1.0` from the same package repository:
+
+```kotlin
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            url = uri("https://maven.pkg.github.com/OpenXingZhi/android-bootstrap")
+            credentials(PasswordCredentials::class)
+        }
+    }
+}
+plugins {
+    id("com.xingzhi.github-packages") version "1.1.0"
+}
+xingzhiGitHubPackages {
+    modules.addAll(
+        "remote-config",
+        "trusted-time",
+        "license-library",
+        "rfid-codec",
+        "android-bootstrap",
+    )
+}
+```
 
 ## Usage
 
