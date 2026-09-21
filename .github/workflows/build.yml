@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  library:
+    permissions:
+      contents: read
+      packages: write
+    uses: OpenXingZhi/AndroidCI/.github/workflows/gradle-library.yml@v1
