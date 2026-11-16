@@ -1,9 +1,9 @@
 plugins {
-    kotlin("jvm") version "2.3.21" apply false
+    kotlin("jvm") version "2.4.0" apply false
 }
 
 group = "com.xingzhi"
-version = providers.gradleProperty("version").orElse("1.1.0").get()
+version = providers.gradleProperty("version").orElse("1.2.0").get()
 
 allprojects {
     group = rootProject.group

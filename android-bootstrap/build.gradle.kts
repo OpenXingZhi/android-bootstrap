@@ -26,6 +26,7 @@ dependencies {
     api("com.xingzhi:license:2.0.0")
     api("com.xingzhi:trusted-time:1.1.0")
     api("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    api("co.touchlab:kermit:2.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
     testImplementation(kotlin("test"))

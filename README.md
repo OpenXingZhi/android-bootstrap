@@ -9,7 +9,7 @@ storage adapters.
 
 ## Dependency
 
-Coordinates: `com.xingzhi:android-bootstrap:1.1.0`
+Coordinates: `com.xingzhi:android-bootstrap:1.2.0`
 
 ```kotlin
 maven {
@@ -17,7 +17,7 @@ maven {
     credentials(PasswordCredentials::class)
 }
 
-implementation("com.xingzhi:android-bootstrap:1.1.0")
+implementation("com.xingzhi:android-bootstrap:1.2.0")
 ```
 
 `MonotonicDeviceTime` is the shared boot-id / elapsed-realtime adapter.
@@ -28,7 +28,7 @@ GitHub Packages requires a GitHub username and a token with `read:packages`
 `GitHubPackagesPassword`, or `GITHUB_ACTOR` / `GITHUB_TOKEN` in CI).
 
 Shared repository wiring lives in the settings plugin
-`com.xingzhi.github-packages:1.1.0` from the same package repository:
+`com.xingzhi.github-packages:1.2.0` from the same package repository:
 
 ```kotlin
 pluginManagement {
@@ -41,7 +41,7 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.xingzhi.github-packages") version "1.1.0"
+    id("com.xingzhi.github-packages") version "1.2.0"
 }
 xingzhiGitHubPackages {
     modules.addAll(
@@ -74,6 +74,25 @@ coordinator.bootstrap(deviceSerial)
 `bootstrap` falls back to a last-known-good snapshot when refresh fails.
 `refreshNow` does not. License eligibility runs after the snapshot is chosen
 so a signed expiry or revocation is not replaced by an older local license.
+
+## Diagnostics
+
+Package `com.xingzhi.bootstrap.diagnostics` is a plain JVM helper (Java 11 bytecode,
+no Android SDK) on Touchlab Kermit, which this artifact exposes as an `api`
+dependency:
+
+- `TelemetryConfig` — optional DSN and environment. `isActive` is true only when
+  telemetry is enabled and `dsn` is non-blank.
+- `LogRedactor` — redacts `Bearer` tokens, credential fields (`password`,
+  `accessToken`, `encryptedAccessToken`, `refreshToken`, `token`,
+  `authorization`, `secret`, `privateKey`) in JSON, YAML, and query strings, and
+  SIP2 patron/login passwords (`|AD…|`, `|CO…|`).
+- `RollingFileLogWriter` — thread-safe rolling files `<prefix>.log`,
+  `<prefix>.1.log`, … `<prefix>.<maxFiles-1>.log`. `logFiles()` is
+  oldest-to-newest. `exportZip` atomically writes a support bundle; text extras
+  such as `device-summary.json` are redacted. `exportZipBytes` keeps the
+  in-memory ZIP within `maxTotalBytes` for a Sentry attachment. `clear()`
+  deletes this writer's `<prefix>*.log` files.
 
 ## Development
 
